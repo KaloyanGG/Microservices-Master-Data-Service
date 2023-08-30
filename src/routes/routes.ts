@@ -1,19 +1,10 @@
 import { Express, Request, Response } from "express";
-import db_conn from "../database/connection";
+import { addOrganization, deleteOrganizationById, getAllOrganizations, getOrganizationById } from "../controller/organization.controller";
 
 export default function registerRoutes(app: Express) {
 
     app.get('/', async (req: Request, res: Response) => {
-
-
-        const query = 'SELECT * FROM people';
-        const [rows, fields] = await db_conn.getConnection().promise().query(query);
-
-        res.send({ rows, fields });
-        //TODO: make the original db now
-
-        // res.send('Hi');
-        console.log(' 📧 Response sent!');
+        res.send('OK');
     });
 
     app.get('/health', (req: Request, res: Response) => {
@@ -21,7 +12,16 @@ export default function registerRoutes(app: Express) {
         console.log(' 👨‍⚕️ Health Checked!');
     });
 
-    
+    //* Real things now:
+
+    //allorganizations:
+    app.get('/organizations', getAllOrganizations);
+
+    app.get('/organizations/:id', getOrganizationById);
+
+    app.post('/organizations', addOrganization);
+
+    app.delete('/organizations/:id', deleteOrganizationById);
 
 
 

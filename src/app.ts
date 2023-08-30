@@ -13,6 +13,9 @@ dotenv.config();
 // instead of the one in .env
 const [host, port] = [config.host, config.port];
 
+app.use(express.json()); // Add this middleware to parse JSON bodies
+app.use(express.urlencoded({ extended: true })); // Add this middleware to parse URL-encoded bodies
+
 app.listen(port, async () => {
     try {
         registerRoutes(app);
