@@ -12,16 +12,18 @@ export default function registerRoutes(app: Express) {
         console.log(' 👨‍⚕️ Health Checked!');
     });
 
-    //* Real things now:
 
-    //allorganizations:
+    //* Main:
     app.get('/organizations', getAllOrganizations);
 
     app.get('/organizations/:id', getOrganizationById);
 
+    //* Extra:
     app.post('/organizations', addOrganization);
 
     app.delete('/organizations/:id', deleteOrganizationById);
+
+
 
 
 

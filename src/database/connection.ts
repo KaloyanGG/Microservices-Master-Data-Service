@@ -14,8 +14,9 @@ class DatabaseConnection {
             database: c.db.DATABASE,
             host: c.db.HOST,
             password: c.db.PASSWORD,
-            port: 3307,
+            port: c.db.PORT,
         };
+        console.log('access: ', access);
         this.connection = mysql.createConnection(access);
         process.on('exit', () => {
             console.log(' 👋 Closing the connection.');
@@ -38,6 +39,7 @@ class DatabaseConnection {
     }
 
     public async checkConnection() {
+        // console.log(this.connection);
         const [rows] = await this.connection.promise().query('SELECT 1');
         console.log(' ✅ Connection is established:', (rows as any)[0]['1'] === 1);
     }

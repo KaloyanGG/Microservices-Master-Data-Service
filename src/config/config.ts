@@ -10,6 +10,7 @@ export default {
         USER: process.env.DB_USER || 'koko',
         PASSWORD: process.env.DB_PASSWORD || '',
         DATABASE: process.env.DB_DATABASE || 'sakilaa',
+        PORT: process.env.DB_PORT as any || 3307,
     },
     // other configurations...
 };

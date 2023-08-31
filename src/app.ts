@@ -23,6 +23,7 @@ app.listen(port, async () => {
         console.log(` ⚡️ Server is running at http://${host}:${port}`);
     } catch (e: any) {
         console.log(` ❌ Error: ${e.message}`);
+        throw e;
         process.exit(1);
     }
 });
