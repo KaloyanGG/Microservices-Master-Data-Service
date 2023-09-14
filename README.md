@@ -62,4 +62,4 @@ For sending mail we will be using SAP Cloud Platform Integration (SCPI) Mail Ada
   
 Ensure to write unit tests. 
 
-![alt text](https://github.com/KaloyanGG/Microservices-Master-Data-Service/blob/main/schema.png?raw=true)
+![alt text](https://github.com/KaloyanGG/Microservices-Master-Data-Service/blob/main/schema1.png?raw=true)
