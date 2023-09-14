@@ -1,13 +1,16 @@
 import { Request, Response } from "express";
 import db_conn from "../database/connection";
 
+
+
 export async function getAllOrganizations(req: Request, res: Response) {
 
-    const query = 'SELECT * FROM organization';
+    const query = "SELECT o.registration_id, o.name, o.date_of_registration, o.contact_number, o.email, a.id AS 'account_id', a.balance FROM organization o JOIN `account` a ON o.registration_id = a.organization_id";
     const [rows] = await db_conn.getConnection().promise().query(query);
 
     res.send(rows);
 }
+
 
 export async function getOrganizationById(req: Request, res: Response) {
 
@@ -19,7 +22,7 @@ export async function getOrganizationById(req: Request, res: Response) {
         return;
     }
 
-    res.send({ rows });
+    res.send((rows as any)[0]);
 
 }
 

@@ -1,6 +1,6 @@
 import express, { Request, Response, Express } from 'express';
 import dotenv from 'dotenv';
-import connection from './database/connection';
+import dbConn from './database/connection';
 import config from './config/config';
 import registerRoutes from './routes/routes';
 
@@ -19,11 +19,11 @@ app.use(express.urlencoded({ extended: true })); // Add this middleware to parse
 app.listen(port, async () => {
     try {
         registerRoutes(app);
-        await connection.checkConnection();
+        await dbConn.checkConnection();
         console.log(` ⚡️ Server is running at http://${host}:${port}`);
     } catch (e: any) {
         console.log(` ❌ Error: ${e.message}`);
-        process.exit(1);
+        throw e;
     }
 });
 
