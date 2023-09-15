@@ -4,6 +4,7 @@ metadata:
   name: master-data-service
   labels:
     app: master-data-service
+    main-app: microservices
 spec:
   selector:
     matchLabels:

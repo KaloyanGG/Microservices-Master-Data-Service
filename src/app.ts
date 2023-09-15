@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import dbConn from './database/connection';
 import config from './config/config';
 import registerRoutes from './routes/routes';
+import { setupMiddlewares } from './config/middlewares';
 
 const app: Express = express();
 
@@ -13,11 +14,12 @@ dotenv.config();
 // instead of the one in .env
 const [host, port] = [config.host, config.port];
 
-app.use(express.json()); // Add this middleware to parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Add this middleware to parse URL-encoded bodies
+
+setupMiddlewares(app);
 
 app.listen(port, async () => {
     try {
+
         registerRoutes(app);
         await dbConn.checkConnection();
         console.log(` ⚡️ Server is running at http://${host}:${port}`);

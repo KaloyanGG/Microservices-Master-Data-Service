@@ -21,7 +21,6 @@ CREATE TABLE IF NOT EXISTS `invoice_header` (
   `invoice_date` DATE NOT NULL DEFAULT (curdate()),
   `item_amount` float(10,2) NOT NULL DEFAULT 0,
   `invoice_amount` float(10,2) NOT NULL DEFAULT 0,
-  `issued` TINYINT(1) NOT NULL DEFAULT 0,
   `buyer_name` VARCHAR(255),
   FOREIGN KEY (`buyer_name`) REFERENCES `organization` (name)
 );
@@ -93,14 +92,25 @@ VALUES
     ('HealthCare Services', '888-555-1234', 'koko.gg@abv.bg'),
     ('Fashion Trends', '777-888-9999', 'kokicha.gg@gmail.com');
 
-INSERT INTO invoice_header (buyer_name,invoice_number, issued)
+INSERT INTO invoice_header (buyer_name,invoice_number)
 VALUES
-	('HealthCare Services', 'INV-5ec-19e-bb7', 1), ('Fashion Trends', 'INV-c9b-de1-f63', 0), ('Tech Solutions','INV-c3f-r3f-2re', 0);
+	('HealthCare Services', 'INV-5ec-19e-bb7'), ('Fashion Trends', 'INV-c9b-de1-f63'), ('Tech Solutions','INV-c3f-r3f-2re');
 
 INSERT INTO invoice_line_item (invoice_number, item_id, quantity)
 VALUES
 	('INV-5ec-19e-bb7', 10, 20), ('INV-5ec-19e-bb7', 8, 15), ('INV-c9b-de1-f63', 4, 30), ('INV-5ec-19e-bb7', 10, 1000);
-	
+
+UPDATE `account` a
+SET a.balance = 5000
+where a.organization_id = 2;
+
+UPDATE `account` a
+SET a.balance = 55000
+where a.organization_id = 3;
+
+UPDATE `account` a
+SET a.balance = 4000
+where a.organization_id = 4;
 	
 UPDATE `account` a
 SET a.balance = 100000

@@ -58,3 +58,11 @@ export async function deleteOrganizationById(req: Request, res: Response) {
         res.status(400).send({ error: e.message });
     }
 }
+
+export async function getAllItems(req: Request, res: Response) {
+
+    const query = 'SELECT * FROM item';
+    const [rows] = await db_conn.getConnection().promise().query(query);
+
+    res.send(rows);
+}

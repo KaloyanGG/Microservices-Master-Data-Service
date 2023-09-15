@@ -26,6 +26,7 @@ class DatabaseConnection {
     }
 
     public static getInstance(): DatabaseConnection {
+
         if (!DatabaseConnection.instance) {
             DatabaseConnection.instance = new DatabaseConnection();
         }

@@ -19,15 +19,29 @@ const mockRows = [
     },
 
 ];
+const mockItems = [
+    {
+        id: 1,
+        name: 'Test',
+        price: 100,
+    },
+    {
+        id: 2,
+        name: 'Test2',
+        price: 200,
+    },
 
-const SELECT_ALL_QUERY = "SELECT o.registration_id, o.name, o.date_of_registration, o.contact_number, o.email, a.id AS 'account_id', a.balance FROM organization o JOIN `account` a ON o.registration_id = a.organization_id";
+]
+
+const SELECT_ALL_ORGANIZATIONS_QUERY = "SELECT o.registration_id, o.name, o.date_of_registration, o.contact_number, o.email, a.id AS 'account_id', a.balance FROM organization o JOIN `account` a ON o.registration_id = a.organization_id";
+const SELECT_ALL_ITEMS_QUERY = "SELECT * FROM item";
 const SELECT_BY_ID_QUERY = 'SELECT * FROM organization WHERE registration_id = ?';
 const INSERT_QUERY = 'INSERT INTO organization (name, contact_number, email) VALUES (?, ?, ?)';
 const DELETE_QUERY = 'DELETE FROM organization WHERE registration_id = ?';
 
 import { Request, Response } from 'express';
 import db_conn from '../../src/database/connection';
-import { addOrganization, deleteOrganizationById, getAllOrganizations, getOrganizationById } from '../../src/controller/organization.controller';
+import { addOrganization, deleteOrganizationById, getAllOrganizations, getOrganizationById, getAllItems } from '../../src/controller/organization.controller';
 
 let insertQueryCount = 0;
 let deleteQueryCount = 0;
@@ -40,7 +54,9 @@ jest.mock('../../src/database/connection', () => {
                 query: jest.fn().mockImplementation((query: string, values?: any) => {
 
                     switch (query) {
-                        case SELECT_ALL_QUERY:
+                        case SELECT_ALL_ITEMS_QUERY:
+                            return Promise.resolve([mockItems]);
+                        case SELECT_ALL_ORGANIZATIONS_QUERY:
                             return Promise.resolve([mockRows]);
                         case SELECT_BY_ID_QUERY:
                             console.log(values);
@@ -50,14 +66,12 @@ jest.mock('../../src/database/connection', () => {
                                 return Promise.resolve([[]]);
                             }
                         case INSERT_QUERY:
-
                             // Throw error only on the first call
                             if (insertQueryCount++ === 1) {
                                 throw new Error('Error msg');
                             }
                             break;
                         case DELETE_QUERY:
-
                             // Throw error only on the first call
                             if (deleteQueryCount++ === 1) {
                                 throw new Error('Error msg');
@@ -207,6 +221,19 @@ describe('Organization controller works', () => {
         expect(mockResponse.status).toHaveBeenCalledWith(400);
         expect(mockResponse.send).toHaveBeenCalledWith({ error: 'Error msg' });
 
+    })
+
+    it('should get all items', async () => {
+
+        const mockRequest: Partial<Request> = {};
+        const mockResponse: Partial<Response> = {
+            send: jest.fn(),
+        };
+
+        await getAllItems(mockRequest as Request, mockResponse as Response);
+
+        expect(mockResponse.send)
+            .toHaveBeenCalledWith(mockItems);
     })
 
     // Add more test cases as needed
